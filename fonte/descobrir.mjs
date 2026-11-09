@@ -1,0 +1,23 @@
+import { createRequire } from 'node:module';
+import http from 'node:http'; import fs from 'node:fs'; import path from 'node:path';
+const require = createRequire(process.env.HOME + '/ariuno-orcamentos/package.json');
+const { chromium } = require('playwright');
+const raiz = process.argv[2]; const saida = process.argv[3]; fs.mkdirSync(saida, { recursive: true });
+const tipos = { '.js':'text/javascript','.css':'text/css','.html':'text/html','.json':'application/json','.webmanifest':'application/json','.svg':'image/svg+xml','.png':'image/png' };
+const srv = http.createServer((q,r)=>{ let p = decodeURIComponent(q.url.split('?')[0]); let f = path.join(raiz,p); if(!fs.existsSync(f)||fs.statSync(f).isDirectory()) f = path.join(raiz,'index.html'); r.writeHead(200,{'content-type':tipos[path.extname(f)]||'application/octet-stream'}); fs.createReadStream(f).pipe(r); }).listen(0);
+const b = await chromium.launch({ headless:true });
+const c = await b.newContext({ viewport:{width:1600,height:1000}, serviceWorkers:'block' });
+const p = await c.newPage(); const erros=[]; p.on('pageerror',e=>erros.push(String(e).slice(0,200)));
+await p.goto(`http://localhost:${srv.address().port}/?demo=1`,{waitUntil:'domcontentloaded',timeout:90000});
+await p.waitForFunction(()=>document.body.innerText.includes('Tarefas'),null,{timeout:90000});
+await p.waitForTimeout(800);
+await p.addStyleTag({content:'#task-onboarding-tour-root{display:none!important} div.fixed.left-4.z-\\[200\\]{display:none!important}'});
+await p.evaluate(()=>{ for (const bt of document.querySelectorAll('button')) { const t=(bt.textContent||'').trim(); if (/^(Departamentos|Administração)$/i.test(t)) bt.click(); } });
+await p.waitForTimeout(400);
+const nomes = await p.evaluate(()=>[...document.querySelectorAll('aside button, nav button')].map(b=>(b.textContent||'').trim()).filter(Boolean));
+console.log('MENU', JSON.stringify(nomes));
+const ir = async (rot) => { const ok = await p.evaluate((r)=>{ const bt=[...document.querySelectorAll('button')].find(x=>(x.textContent||'').trim().replace(/\s*\d+$/,'')===r); if(bt){bt.click(); return true;} return false; }, rot); await p.waitForTimeout(1300); return ok; };
+const lista = ['Mural & Recados','Relatórios','Central de Relatórios','Tarefas','Timesheet','Planner','Projetos','Clientes','Equipe','Arena Ariuno','Solicitações','Formulários','Meu Portal','Comercial','RH','Marketing','Impulsionamento','Criação','Compras','Tráfego','Social Mídia','Estoque','RP','Diretoria','Tipos de Tarefa','Modelos de Projeto','Ajustes da empresa','Feriados','Backups','Integrações','Gestão de Equipe'];
+let i=0; for (const r of lista) { const ok = await ir(r); i++; const nome=String(i).padStart(2,'0')+'-'+r.replace(/[^a-zA-ZÀ-ú]+/g,'_'); if(ok) await p.screenshot({path:path.join(saida,nome+'.jpg'),type:'jpeg',quality:60}); console.log(ok?'ok ':'-- ', r); }
+console.log(erros.length, erros.slice(0,4));
+await b.close(); srv.close();

@@ -1,0 +1,7 @@
+import { createRequire } from 'node:module'; import fs from 'node:fs'; import path from 'node:path';
+const require = createRequire(process.env.HOME + '/ariuno-orcamentos/package.json'); const { chromium } = require('playwright');
+const [,, dir, saida] = process.argv; const C=JSON.parse(fs.readFileSync(path.join(dir,'assets/caixas.js'),'utf-8').replace(/^window\.CAIXAS=/,'').replace(/;\s*$/,''));
+const itens=[]; for(const [k,v] of Object.entries(C)) v.forEach((c,i)=>itens.push({k,i,...c}));
+const b=await chromium.launch(); const p=await b.newPage({viewport:{width:1600,height:1000}});
+for(let g=0;g<itens.length;g+=12){ const parte=itens.slice(g,g+12); await p.setContent('<body style="margin:0;background:#222;display:grid;grid-template-columns:repeat(4,400px)">'+parte.map(c=>`<div style="position:relative;width:400px;height:250px;overflow:hidden"><img src="data:image/jpeg;base64,${fs.readFileSync(path.join(dir,'assets/telas',c.f)).toString('base64')}" style="width:400px;display:block"><div style="position:absolute;left:${c.x/4}px;top:${c.y/4}px;width:${c.w/4}px;height:${c.h/4}px;outline:3px solid #f0f;background:rgba(255,0,255,.1)"></div><span style="position:absolute;left:0;top:0;background:#000;color:#fff;font:12px sans-serif;padding:2px 5px">${c.k} ${c.i+1}</span></div>`).join('')); await p.waitForTimeout(500); await p.screenshot({path:path.join(saida,'cx'+(g/12)+'.png'),fullPage:true}); }
+await b.close(); console.log(itens.length);
