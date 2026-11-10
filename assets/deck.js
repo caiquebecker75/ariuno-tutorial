@@ -201,6 +201,26 @@ const SEG={
 const seg=$('.s-etapas');
 if(seg)seg.addEventListener('aba',e=>{const k=$$('.segs button',seg)[e.detail].dataset.s,box=$('.col-m',seg);box.innerHTML='';SEG[k].forEach((c,i)=>{const d=document.createElement('div');d.style.animationDelay=(i*50)+'ms';if(/Conclu/.test(c[0]))d.className='fim';const h=document.createElement('h4');h.textContent=c[0];const p=document.createElement('p');p.textContent=c[1];d.append(h,p);box.appendChild(d);});});
 
+/* tarefa principal, subtarefa e checklist */
+const hier=$('.s-hier');
+if(hier)hier.addEventListener('aba',e=>{const b=$$('.niv',hier)[e.detail];hier.dataset.foco=b.dataset.n;$('#hNome').textContent=b.dataset.nome;$('#hO').textContent=b.dataset.o;$('#hOnde').textContent=b.dataset.onde;$('#hQ').textContent=b.dataset.q;});
+
+/* onde isso entra: um caso por vez */
+(function(){
+  const s=$('.s-onde');if(!s)return;const C=JSON.parse($('#ondeDados').textContent);let i=0,resp=false,acertos=0;
+  const bs=$$('.tres button',s),fila=$('#oFila');
+  fila.innerHTML=C.map(()=>'<i></i>').join('');
+  function pinta(){resp=false;$('#oN').textContent='Caso '+(i+1)+' de '+C.length;$('#oT').textContent=C[i].t;$('#oP').textContent='';bs.forEach(b=>b.className='');$$('i',fila).forEach((x,k)=>{if(k===i)x.className='agora';});}
+  bs.forEach(b=>b.addEventListener('click',e=>{e.stopPropagation();pararAutos();
+    if(resp){if(i+1<C.length){i++;pinta();}else{i=0;acertos=0;$$('i',fila).forEach(x=>x.className='');pinta();}return;}
+    resp=true;const c=+b.dataset.c,ok=c===C[i].c;if(ok)acertos++;
+    bs[C[i].c].classList.add('certa');if(!ok)b.classList.add('errada');
+    $$('i',fila)[i].className=ok?'ok':'nao';
+    $('#oP').textContent=(ok?'Isso. ':'Quase. ')+C[i].p+(i+1<C.length?' Clique em qualquer opção para o próximo caso.':' Fim: '+acertos+' de '+C.length+'. Clique para recomeçar.');}));
+  pinta();
+  if(modoPdf){bs[C[0].c].classList.add('certa');$('#oP').textContent=C[0].p;}
+})();
+
 /* simulador de permissões */
 (function(){
   const s=$('.s-perm');if(!s)return;

@@ -46,11 +46,11 @@ add(f'''<section class="tela s-capa" {attrs("", "Capa", "escuro")}>
 <div class="ac so-tela"><button class="botao lime" data-ir="2" data-cursor="Ir">Começar a reunião →</button><a class="botao claro" href="{PDF}" target="_blank" rel="noopener">Baixar em PDF</a></div></div>
 <div class="lab"><span>Uma apresentação</span><img src="assets/75lab-wordmark-paper.png" alt="75 LAB"></div></section>''')
 
-PAR = [(5,'Entender','Como o Ariuno se organiza'),(15,'Configurar','Sete passos do admin'),(18,'Dia a dia','A rotina de quem usa'),(6,'Áreas','Cada departamento'),(6,'Gestão','Relatórios e regras'),(5,'1ª semana','Plano e teste'),(5,'Perguntas','Com a sua realidade')]
+PAR = [(5,'Entender','Como o Ariuno se organiza'),(15,'Configurar','Sete passos do admin'),(20,'Dia a dia','A rotina de quem usa'),(6,'Áreas','Cada departamento'),(6,'Gestão','Relatórios e regras'),(5,'1ª semana','Plano e teste'),(3,'Perguntas','Com a sua realidade')]
 blocos = ''.join(f'<div class="par" style="flex:{m+6} 1 0"><u>{m}<small>min</small></u><div><b>{e(n)}</b><p>{e(d)}</p></div></div>' for m,n,d in PAR)
 add(f'''<section class="tela" {attrs("Agenda","Agenda da reunião")}><div class="eb">A reunião</div><h2>Sete paradas, sessenta minutos. <em>O relógio está no topo.</em></h2>
 <div class="linha60">{blocos}</div>
-<div class="quem"><div><b>Quem administra</b>Fica do começo ao fim e sai com a conta configurada.</div><div><b>O time</b>Pode entrar a partir do Dia a dia, em 20 minutos.</div><div><b>Como acompanhar</b>Cada tela mostra o passo destacado no próprio Ariuno.</div></div></section>''')
+<div class="quem"><div><b>Quem administra</b>Fica do começo ao fim e sai com a conta configurada.</div><div><b>O time</b>Pode entrar a partir do Dia a dia, aos 20 minutos.</div><div><b>Como acompanhar</b>Cada tela mostra o passo destacado no próprio Ariuno.</div></div></section>''')
 
 # ================================================================= 1 entender
 C1='1 · Entender'
@@ -126,7 +126,7 @@ add(f'''<section class="tela s-chk" {attrs(C2,"Checagem da configuração")}><di
 
 # ================================================================= 3 dia a dia
 C3='3 · Dia a dia'
-capitulo(3,'Dia a dia','18 minutos','Para o time inteiro',['A rotina em cinco movimentos','Criar, abrir e tocar um card','Horas, pedidos e recados'])
+capitulo(3,'Dia a dia','20 minutos','Para o time inteiro',['A rotina em cinco movimentos','Tarefa, subtarefa e checklist','Criar, abrir e tocar um card','Horas, pedidos e recados'])
 MOV=[('Abra','Sua pauta mostra o que é seu.','M4 5h16v14H4zM4 10h16M9 5V3M15 5V3'),('Dê o Play','O tempo entra no card.','M8 5l12 7-12 7z'),('Registre','Comente, marque e anexe no card.','M4 5h16v11H9l-5 4z'),('Mova','A próxima etapa já vê.','M4 12h15M13 6l6 6-6 6'),('Conclua','Entra nos relatórios.','M4 13l5 5L20 7')]
 mv=''.join(f'<div class="mov"><div class="ic"><svg viewBox="0 0 24 24"><path d="{p}"/></svg></div><small>{i+1}</small><h3>{e(a)}</h3><p>{e(b)}</p></div>' for i,(a,b,p) in enumerate(MOV))
 add(f'''<section class="tela" {attrs(C3,"A rotina em 5 movimentos")}><div class="eb">Parada 3</div><h2>O dia de trabalho cabe em <em>cinco movimentos</em>.</h2><div class="rot">{mv}</div><div class="total" style="margin-top:50px">Regra de ouro: se aconteceu no job, está dentro do card.</div></section>''')
@@ -148,6 +148,32 @@ abas('card',C3,'Dentro do card','Dentro do card','Tudo sobre o job <em>mora no c
  ('Cronograma','Etapas e datas','Monte o cronograma do job, linha a linha.','Para jobs longos'),
  ('Painel','Painel de Controle','AF, orçamento aprovado, faturamento e entrega.','Para quem cuida do financeiro do job'),
  ('Tempo','Registros de Tempo','Cada apontamento: de quem, quando e quanto.','Lançou errado? Corrija aqui')],'Clique em cada aba','data-regiao="60,50,1160,725" data-semluz')
+# ---- tarefa principal, subtarefa e checklist: um job de verdade, desmontado
+NIV=[('principal','Tarefa principal','O job inteiro: o que o cliente vai receber.','Tem cliente, projeto, briefing e o prazo final. O card mostra quantas subtarefas já foram feitas.','O que o cliente vai receber?'),
+     ('sub','Subtarefa','Uma parte do job com dono, prazo e etapa próprios.','Anda pelo quadro na sua etapa e pode ir para o Planner de quem faz. Use quando muda a pessoa ou a etapa.','Precisa de outra pessoa ou de outra etapa?'),
+     ('chk','Checklist','Itens curtos para não esquecer, dentro de um card.','Não anda pelo quadro: o card mostra o progresso, como 1/3. Cada item pode ter responsável, fornecedor e data.','É um lembrete rápido dentro de um trabalho?')]
+niv=''.join(f'<button class="niv" data-n="{k}" data-nome="{e(t)}" data-o="{e(o)}" data-onde="{e(w)}" data-q="{e(q)}" data-t="{e(o)} {e(w)}" data-cursor="">{e(t)}</button>' for k,t,o,w,q in NIV)
+SUBS=[('Redação dos textos','Ana','Criação','até 12/12',False),('Diagramação','Bruno','Criação','até 16/12',True),('Aprovação com o cliente','Camila','Aprovação','até 18/12',False)]
+CHK=[('Conferir os preços com a tabela','Bruno',True),('Logo na versão nova','Bruno',False),('Exportar o PDF em alta','Diego',False)]
+def subtarefa(t,p,et,pr,abre):
+    ch=''
+    if abre:
+        ch='<div class="chkl" data-n="chk"><div class="chk-rot">Checklist da Diagramação <u>1/3</u></div>'+''.join(f'<div class="itm{" ok" if f else ""}"><i>{"✓" if f else ""}</i><span>{e(x)}</span><em>{e(q)}</em></div>' for x,q,f in CHK)+'</div>'
+    return f'<div class="ramo"><div class="sb" data-n="sub"><span class="tag">Subtarefa</span><b>{e(t)}</b><small>{e(p)} · {e(et)} · {e(pr)}</small></div>{ch}</div>'
+arv=''.join(subtarefa(*x) for x in SUBS)
+add(f"""<section class="tela s-hier" data-abas=".niv" {attrs(C3,"Tarefa, subtarefa e checklist")}><div style="display:flex;justify-content:space-between;align-items:flex-end"><div><div class="eb"><b>Exemplo</b> Um job desmontado</div><h2>Um job, <em>três níveis</em>: tarefa, subtarefa e checklist.</h2></div>{cta("Clique em cada nível")}</div>
+<div class="hier"><div class="arv"><div class="mae" data-n="principal"><span class="tag">Tarefa principal</span><b>Encarte de dezembro</b><small>Kompra Supermercados · Catálogo 2026 · entrega 20/12 · subtarefas 1 de 3</small></div><div class="filhos">{arv}</div></div>
+<div class="pn"><div class="niveis">{niv}</div><h3 id="hNome"></h3><p id="hO"></p><div class="lin"><b>Na prática</b><span id="hOnde"></span></div><div class="pergunta"><b>Pergunta para decidir</b><span id="hQ"></span></div></div></div>
+<div class="regra">Regra prática: <b>tem dono e prazo, é subtarefa.</b> <b>É para não esquecer, é checklist.</b></div></section>""")
+ONDE=[{"t":"Campanha de Natal da Kompra","c":0,"p":"É o job inteiro, com cliente e prazo final."},
+      {"t":"Fotografar os produtos do encarte","c":1,"p":"Outra pessoa, outro prazo: subtarefa."},
+      {"t":"Conferir se o logo é o da versão nova","c":2,"p":"Lembrete rápido dentro da diagramação: checklist."},
+      {"t":"Aprovação do cliente","c":1,"p":"Depende do cliente e tem etapa própria: subtarefa."},
+      {"t":"Revisar a ortografia antes de enviar","c":2,"p":"Item curto para não esquecer: checklist."}]
+add(f"""<section class="tela s-onde" {attrs(C3,"Onde isso entra?")}><div style="display:flex;justify-content:space-between;align-items:flex-end"><div><div class="eb"><b>Agora você</b> Cinco casos</div><h2>Onde isso entra: <em>tarefa, subtarefa ou checklist?</em></h2></div>{cta("Clique na resposta")}</div>
+<script type="application/json" id="ondeDados">{json.dumps(ONDE,ensure_ascii=False)}</script>
+<div class="onde"><div class="caso"><small id="oN"></small><b id="oT"></b></div><div class="tres"><button data-c="0" data-cursor=""><u>1</u>Tarefa principal</button><button data-c="1" data-cursor=""><u>2</u>Subtarefa</button><button data-c="2" data-cursor=""><u>3</u>Checklist</button></div><p class="porque" id="oP"></p><div class="fila" id="oFila"></div></div>
+<div class="regra">Regra prática: <b>é o job inteiro, é tarefa principal.</b> <b>Tem dono e prazo, é subtarefa.</b> <b>É para não esquecer, é checklist.</b></div></section>""")
 tour('trabalhar',C3,'Play e Concluir','<b>2</b> Dê o Play','Play quando começa. <em>Concluir quando termina.</em>','trilho',[
  ('Play','Começou a trabalhar? Clique. O tempo vai para o card.'),
  ('Concluir','Terminou? O card sai da sua pauta e entra nos relatórios.'),
@@ -203,7 +229,7 @@ add(f'''<section class="tela s-auto" {attrs(C5,"Monte uma automação")}><div st
 
 # ================================================================= 6 semana
 C6='6 · Primeira semana'
-capitulo(6,'Primeira semana','5 minutos + perguntas','Para sair daqui com data marcada',['O plano de cinco dias','Um teste rápido'])
+capitulo(6,'Primeira semana','5 minutos e perguntas','Para sair daqui com data marcada',['O plano de cinco dias','Um teste rápido'])
 DIAS=[('Segunda','Admin',['Ajustes da empresa','Convites enviados','Permissões conferidas'],'Quem: admin'),('Terça','Base',['Clientes e projetos','Quadro e etapas','Tipos de tarefa'],'Quem: admin'),('Quarta','Modelos',['Três modelos principais','Um card de teste de ponta a ponta'],'Quem: admin e líderes'),('Quinta','Time',['Todo mundo com cards','Play ligado','Parar de usar a planilha'],'Quem: time inteiro'),('Sexta','Leitura',['Abrir os Relatórios','Ver quem não registrou','Ajustar o que travou'],'Quem: líderes')]
 ds=''.join(f'<div class="dia"><header><small>{e(a)}</small><b>{e(b)}</b></header><ul>'+''.join(f'<li>{e(x)}</li>' for x in c)+f'</ul><div class="quem2">{e(d)}</div></div>' for a,b,c,d in DIAS)
 add(f'''<section class="tela" {attrs(C6,"Plano da primeira semana")}><div class="eb">Parada 6</div><h2>Em <em>cinco dias</em> o time inteiro está dentro.</h2><div class="sem">{ds}</div></section>''')
