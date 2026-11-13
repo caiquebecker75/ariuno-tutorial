@@ -45,7 +45,7 @@ C8 = '8 · Usuários e permissões'
 capitulo(8, 'Usuários e permissões', 'Consulta', 'Para quem administra', ['Aprovar, bloquear e excluir', 'Cada campo do usuário', 'Quem pode o quê'])
 tourA('equipe2', C8, 'Gestão de Equipe', '<b>Equipe</b> Administração', 'O time inteiro, <em>com os assentos à vista</em>.', 'trilho', [
  ('Usuários e Equipes', 'Duas abas: as pessoas e os times com líder.'),
- ('Assentos', 'Quantos a empresa contratou e quantos estão livres.'),
+ ('Assentos', 'Quantos a empresa contratou, quantos estão livres e os convites abertos. Com vaga livre, Convidar pessoa.'),
  ('Busca e filtros', 'Por nome, e-mail, tipo e status. Pendentes ficam em cima: Aprovar usa uma vaga livre.'),
  ('Editar, bloquear, excluir', 'Bloquear libera o assento e encerra a sessão. Excluir pede para quem passar os cards.'),
  ('Equipes', 'Nova Equipe com nome e líder.')], c='Clique nos números')
@@ -56,12 +56,12 @@ tourA('usuario2', C8, 'Editar usuário a fundo', '<b>Usuário</b> Editar', 'Cada
  ('Colunas visíveis', 'Limite as colunas por quadro. Liberar todas desfaz.'),
  ('Senha e salvar', 'Resetar senha manda o link por e-mail. Salvar grava só o que mudou.')])
 PAPEIS = ['75 LAB', 'Admin', 'Gestor', 'Pessoa do time', 'Cliente']
-PAPEL_TXT = ['Dona da plataforma: abre assentos, envia convites e promove administradores.',
-             'Configura a empresa, aprova quem chega e decide o que cada pessoa vê.',
+PAPEL_TXT = ['Dona da plataforma: abre assentos, convida para qualquer empresa e promove administradores.',
+             'Configura a empresa, convida e aprova gente com vaga livre e decide o que cada pessoa vê.',
              'Lidera um time: vê os números de cada pessoa nos relatórios. Não abre a Administração.',
              'Trabalha nos cards e nas áreas que o admin liberou.',
              'Acompanha o que é dele e responde por link. Não ocupa assento pago.']
-LINHAS = [('Abrir assento e enviar convite', 'S....'), ('Aprovar quem se cadastrou, com vaga livre', 'SS...'), ('Tornar alguém administrador', 'S....'),
+LINHAS = [('Abrir assento novo', 'S....'), ('Convidar para a própria empresa, com vaga livre', 'SS...'), ('Aprovar quem se cadastrou, com vaga livre', 'SS...'), ('Tornar alguém administrador', 'S....'),
           ('Mudar os Ajustes da empresa', 'SS...'), ('Editar áreas, permissões e colunas', 'SS...'), ('Criar, arquivar e excluir quadros', 'SS...'),
           ('Ver os números de cada pessoa', 'SSS..'), ('Ver custos e margem', 'SSCC.'), ('Abrir os departamentos', 'SSAA.'),
           ('Trabalhar nos cards, dar Play e comentar', 'SSSS.'), ('Acompanhar o próprio job por link', '....S')]

@@ -15,8 +15,8 @@
  {
   "id": "m02-convidar",
   "num": "MANUAL · CONFIGURAR",
-  "titulo": "Como a pessoa entra no time",
-  "sub": "A 75 LAB convida. Vaga livre, o admin aprova",
+  "titulo": "Convidar uma pessoa",
+  "sub": "O admin convida para a própria empresa",
   "fim": 36,
   "gif": true,
   "tela": [

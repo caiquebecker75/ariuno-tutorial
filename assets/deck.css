@@ -462,11 +462,11 @@ h2 em{font-style:normal;color:var(--iris)}
 
 /* telas próprias do manual avançado */
 .mz{margin-top:22px;background:#fff;border-radius:16px;padding:8px 18px}
-.mz-l{display:grid;grid-template-columns:1fr repeat(5,150px);align-items:center;border-top:1px solid var(--paper2);min-height:46px}
+.mz-l{display:grid;grid-template-columns:1fr repeat(5,150px);align-items:center;border-top:1px solid var(--paper2);min-height:40px}
 .mz-l:first-child{border-top:0}
-.mz-l span{font-size:18px;font-weight:600}
+.mz-l span{font-size:17px;font-weight:600}
 .mz-l b{display:grid;place-items:center;height:100%;transition:background .3s}
-.mz-cab{min-height:62px}
+.mz-cab{min-height:56px}
 .mz-p{position:relative;overflow:hidden;height:44px;margin:0 4px;border-radius:9px;background:var(--paper2);font:700 15px/1 var(--mono);letter-spacing:.02em}
 .mz-p.on{background:var(--ink);color:var(--lime)}
 .mx{font-style:normal;font-size:24px;line-height:1}

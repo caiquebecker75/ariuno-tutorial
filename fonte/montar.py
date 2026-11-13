@@ -99,11 +99,11 @@ tour('ajustes',C2,'Passo 1 · Ajustes da empresa','<b>Passo 1</b> 2 min','Comece
  ('Coloque a sua marca','Em Aparência e Marca entram logo, cores e fontes.'),
  ('Salve','Salvar e Aplicar vale para toda a empresa.')])
 tour('time',C2,'Passo 2 · Convidar o time','<b>Passo 2</b> 3 min','Traga o time: <em>o link já entra liberado</em>.','esq',[
- ('Abra Gestão de Equipe','Em Administração. Assentos contratados e vagas livres ficam no topo.'),
- ('Assento novo é com a 75 LAB','Mande a lista de e-mails: a 75 LAB abre os assentos e envia os convites.'),
- ('O convite leva e-mail e nome','O link pessoal chega por e-mail e vale 14 dias.'),
- ('Já com a configuração certa','O convite pode copiar as permissões de um colega da mesma área.'),
- ('A pessoa entra liberada','Quem cria a senha pelo link entra direto. Vaga livre sem convite: o admin aprova em Pendentes.')])
+ ('Abra Gestão de Equipe','Em Administração. Assentos contratados, vagas livres e convites abertos ficam no topo.'),
+ ('Convidar pessoa','O admin convida para a própria empresa, usando uma vaga livre. Assento novo é com a 75 LAB.'),
+ ('E-mail e nome','O link pessoal chega por e-mail e vale 14 dias.'),
+ ('Já com a configuração certa','O convite copia as permissões de um colega da empresa. Administrador, só a 75 LAB promove.'),
+ ('A pessoa entra liberada','Quem cria a senha pelo link entra direto. Quem se cadastrou sem convite aparece em Pendentes.')])
 tour('permissoes',C2,'Passo 3 · Permissões','<b>Passo 3</b> 3 min','Cada pessoa vê <em>só o que precisa</em>.','trilho',[
  ('Copie de um colega','Na edição do usuário, puxe a configuração de alguém da mesma empresa.'),
  ('Ajuste as chaves','Gestor, edição de custos e acesso a relatórios.'),
