@@ -8,13 +8,15 @@ def tourA(*a, **k):
 # ================================================================= 7 empresa
 C7 = '7 · Empresa a fundo'
 capitulo(7, 'Empresa a fundo', 'Consulta', 'Para quem administra', ['Cada regra dos Ajustes', 'Marca, feriados, tipos e formulários', 'Integrações com as redes'])
-abas('ajustes2', C7, 'As regras da empresa', '<b>Ajustes</b> Administração', 'Cada assunto dos Ajustes, <em>o que muda de verdade</em>.', [
- ('Usuários', 'Usuários', 'A chave que vale: esconder de quem não é gestor os números individuais dos colegas, como horas, ranking e atrasos.', 'Ligada, só admin e gestor veem por pessoa'),
- ('Tarefas', 'Tarefas', 'Toda tarefa criada na mão entra na primeira coluna do quadro, ou na coluna de entrada que você escrever.', 'Exemplo: escreva Briefing'),
- ('Comentários', 'Comentários e anexos', 'Bloqueie anexos para todos, ou dê um prazo para editar e apagar comentários.', 'Depois do prazo, só o admin edita'),
- ('Cliente > Projeto', 'Cliente e projeto', 'Liga a ligação entre cliente e projeto e, se quiser, os grupos de projetos.', 'Grupo aparece no cadastro do projeto'),
+abas('ajustes2', C7, 'As regras da empresa', '<b>Ajustes</b> Administração', 'Cada assunto dos Ajustes, <em>chave por chave</em>.', [
+ ('Usuários', 'Usuários', 'Quem troca a própria foto, quem cria quadros e etiquetas novas, quem gera links para o cliente e quem muda vários cards de uma vez.', 'Cada chave diz o que acontece desligada'),
+ ('Externos', 'Usuários externos', 'Liga os links para o cliente: aprovação, acompanhamento, repositório e relatório. A marca do Ariuno no rodapé é opcional.', 'Desligada, ninguém gera link para o cliente'),
+ ('Tarefas', 'Tarefas', 'Só admin manda card para Excluídos, pontos Scrum no card e a coluna onde nasce a tarefa criada na mão.', 'Exemplo de coluna de entrada: Briefing'),
+ ('Comentários', 'Comentários e anexos', 'Quem é marcado com @ recebe e-mail, e responder o e-mail vira comentário no card. Também trava anexos e o prazo para editar.', 'Depois do prazo, só o admin edita'),
+ ('Cliente', 'Cliente e projeto', 'Liga a ligação entre cliente e projeto e, se quiser, os grupos de projetos.', 'Grupo aparece no cadastro do projeto'),
  ('Mural', 'Mural', 'Liga ou desliga o Mural & Recados para a empresa inteira.', 'Desligado, some do menu'),
- ('Tempo', 'Gestão de tempo', 'Escolha como o tempo conta e se o Ariuno lembra de registrar horas na entrega.', 'Padrão: contabilização normal'),
+ ('Tempo', 'Gestão de tempo', 'Como o tempo conta nos custos e se o Ariuno lembra de registrar horas na entrega.', 'Padrão: contabilização normal'),
+ ('Avaliação', 'Avaliação de entregas', 'Quem abriu a tarefa dá de 1 a 5 estrelas quando ela é concluída. Nota baixa pode pedir comentário.', 'Só para quem participa da avaliação'),
  ('Aparência', 'Aparência e Marca', 'Logo, cor, fonte, fundo, tema escuro e menu com a cara da empresa.', 'Tem botão para voltar ao padrão'),
  ('Etiquetas', 'Etiquetas globais', 'Etiquetas com cor que valem em todos os quadros.', 'Ex.: Urgente, Reunião, Aprovação')],
  'Clique em cada assunto', REG + ' data-semluz')
@@ -51,7 +53,7 @@ tourA('equipe2', C8, 'Gestão de Equipe', '<b>Equipe</b> Administração', 'O ti
  ('Equipes', 'Nova Equipe com nome e líder.')], c='Clique nos números')
 tourA('usuario2', C8, 'Editar usuário a fundo', '<b>Usuário</b> Editar', 'Cada campo do usuário, <em>de cima para baixo</em>.', 'dir', [
  ('Informações básicas', 'Nome, e-mail, tipo Funcionário ou Cliente e a jornada semanal.'),
- ('Permissões e acessos', 'É Gestor, Edição de Custos e Acessa Relatórios. Administrador só a 75 LAB promove.'),
+ ('Permissões e acessos', 'É Gestor, Edição de Custos, Acessa Relatórios e se a pessoa troca a própria foto e o nome. Administrador só a 75 LAB promove.'),
  ('Áreas liberadas', 'Marque cada área. Em cada uma, escolha edita ou só vê.'),
  ('Colunas visíveis', 'Limite as colunas por quadro. Liberar todas desfaz.'),
  ('Senha e salvar', 'Resetar senha manda o link por e-mail. Salvar grava só o que mudou.')])

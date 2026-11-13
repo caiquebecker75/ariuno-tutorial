@@ -360,7 +360,7 @@ const abrirCard=async()=>{ await menu('Tarefas'); await seguro(()=>clicar(tx('KO
 const abaCard=async(rot)=>{ await p.evaluate((r)=>{ const b=[...document.querySelectorAll('div.fixed button')].find(x=>(x.textContent||'').trim().replace(/\s*\d+$/,'')===r); b&&b.click(); },rot); await dorme(800); };
 const fecharCard=async()=>{ await seguro(()=>p.locator('div.fixed button:has(svg.lucide-x)').first().click({timeout:2500})); await dorme(700); };
 // empresa
-await roteiro('ajustes2',async()=>{ await fotosDeAbas('ajustes2','Ajustes da empresa',['Usuários','Tarefas','Comentários e anexos','Cliente > Projeto','Mural','Gestão de tempo','Aparência e Marca','Etiquetas Globais']); });
+await roteiro('ajustes2',async()=>{ await fotosDeAbas('ajustes2','Ajustes da empresa',['Usuários','Usuários externos','Tarefas','Comentários e anexos','Cliente > Projeto','Mural','Gestão de tempo','Avaliação de entregas','Aparência e Marca','Etiquetas Globais']); });
 await roteiro('aparencia',async()=>{ novoTour('aparencia');
   await menu('Ajustes da empresa'); await irAba('Aparência e Marca',1200);
   await passo(porTexto('Presets de Aparência do Master'));

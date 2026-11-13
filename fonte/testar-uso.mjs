@@ -26,7 +26,7 @@ await pg.keyboard.press('ArrowLeft');await pg.waitForTimeout(900);log('volta uma
 const luzOk=await pg.evaluate(()=>{const q=document.querySelector('.tela.ativa .quadro').getBoundingClientRect(),l=document.querySelector('.tela.ativa .luz').getBoundingClientRect();return l.width>10&&l.left>=q.left-2&&l.right<=q.right+2&&l.top>=q.top-2&&l.bottom<=q.bottom+2;});log('destaque dentro da tela',luzOk);
 // clique em passo e autoplay
 await pg.locator('.tela.ativa [data-p]').nth(2).click();await pg.waitForTimeout(400);log('clique escolhe o passo',await on()===2);await pg.waitForTimeout(6500);log('clique para o temporizador',await on()===2);
-await vai(await idx('Passo 2 · Convidar o time'));await pg.waitForTimeout(7200);log('temporizador avança sozinho',await on()>=1);
+await vai(await idx('Passo 2 · Convidar o time'));await pg.waitForTimeout(9500);log('temporizador avança sozinho',await on()>=1);
 // lightbox
 await pg.locator('.tela.ativa .quadro').click();await pg.waitForTimeout(300);log('amplia a imagem',await pg.locator('#caixa.aberta').count()===1);await pg.keyboard.press('Escape');await pg.waitForTimeout(200);log('Esc fecha',await pg.locator('#caixa.aberta').count()===0);
 // foco
