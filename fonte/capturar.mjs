@@ -250,6 +250,20 @@ await roteiro('gestao',async()=>{ novoTour('gestao');
   await passo(p.locator('main button').filter({hasText:/Nova automação|Nova regra|Criar automação/}).first());
   await clicar(p.locator('main button').filter({hasText:/Kanban/})); await dorme(400);
 });
+// ---------------------------------------------------------- cards em massa por planilha
+await roteiro('importar',async()=>{ novoTour('importar');
+  await menu('Tarefas');
+  const abrir=p.getByRole('button',{name:'Importar cards por planilha'});
+  await passo(abrir,{folga:12});
+  await clicar(abrir); await dorme(700);
+  await passo(p.getByRole('button',{name:/Baixar o modelo/}));
+  await p.locator('input[type=file]').last().setInputFiles(path.join(AQUI,'exemplo-cards.csv')); await dorme(1000);
+  await passo(p.getByRole('button',{name:/Subir a planilha/}));
+  await passo([p.locator('div.fixed p').filter({hasText:'para criar'}),p.locator('div.fixed div[class*="bg-amber-50"]')],{nova:false,folga:10});
+  await passo(p.getByRole('button',{name:/^Criar \d+ card/}),{nova:false});
+  await clicar(p.getByRole('button',{name:/^Criar \d+ card/})); await dorme(1300);
+  await passo(tx(/card\(s\) criados no quadro/).locator('xpath=ancestor::div[2]'));
+});
 const arq=path.join(AQUI,'../assets/caixas.js');
 let ant={}; if(so&&fs.existsSync(arq)){ try{ ant=JSON.parse(fs.readFileSync(arq,'utf-8').replace(/^window\.CAIXAS=/,'').replace(/;\s*$/,'')); }catch{} }
 fs.writeFileSync(arq,'window.CAIXAS='+JSON.stringify({...ant,...CAIXAS})+';\n');

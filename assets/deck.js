@@ -64,10 +64,39 @@ telas.forEach((t,i)=>{
   if(t.classList.contains('s-cap'))return;
   const li=document.createElement('li'), b=document.createElement('button');
   b.innerHTML='<b>'+dd(i+1)+'</b>';b.append(t.dataset.titulo||'');b.dataset.cursor='Ir';b.dataset.i=i;
+  if(t.hasAttribute('data-novo')){const nv=document.createElement('span');nv.className='novo';nv.textContent='Novo';b.appendChild(nv);}
   b.addEventListener('click',e=>{e.stopPropagation();fecharSum();setTimeout(()=>ir(i),60);});
   li.appendChild(b);lista.appendChild(li);
 });
 function abrirSum(){sum.classList.add('aberto');}
+
+/* tela de índice: capítulos em três colunas, cada linha leva à tela */
+(function(){
+  const box=$('#indice');if(!box)return;
+  const grupos=[];let g=null;
+  telas.forEach((t,i)=>{
+    const c=(t.dataset.cap||'').match(/^(\d+) · (.*)$/);
+    if(t.classList.contains('s-cap')&&c){g={n:c[1],nome:c[2],i,dur:($('.dur',t)||{}).textContent||'',itens:[]};grupos.push(g);return;}
+    if(!g||t.classList.contains('s-indice'))return;
+    g.itens.push({i,tit:t.dataset.titulo||'',novo:t.hasAttribute('data-novo')});
+  });
+  // três colunas seguidas, com a altura mais parecida possível
+  const peso=x=>1.5+x.itens.length;let melhor=null;
+  for(let a=1;a<grupos.length-1;a++)for(let b=a+1;b<grupos.length;b++){
+    const cols=[grupos.slice(0,a),grupos.slice(a,b),grupos.slice(b)],m=Math.max(...cols.map(c=>c.reduce((s,x)=>s+peso(x),0)));
+    if(!melhor||m<melhor.m)melhor={m,cols};}
+  const ir2=(b,i)=>{b.dataset.cursor='Ir';b.addEventListener('click',e=>{e.stopPropagation();ir(i);});};
+  (melhor?melhor.cols:[grupos]).forEach(col=>{
+    const d=document.createElement('div');d.className='colx';
+    col.forEach(x=>{
+      const gr=document.createElement('div');gr.className='gr';
+      const h=document.createElement('button');h.className='gr-t';h.innerHTML='<u>'+x.n+'</u>';h.append(x.nome);
+      const sm=document.createElement('small');sm.textContent=x.dur;h.appendChild(sm);ir2(h,x.i);gr.appendChild(h);
+      x.itens.forEach(it=>{const b=document.createElement('button');b.className='it';b.innerHTML='<b>'+dd(it.i+1)+'</b>';const sp=document.createElement('span');sp.textContent=it.tit;b.appendChild(sp);
+        if(it.novo){const nv=document.createElement('em');nv.className='novo';nv.textContent='Novo';b.appendChild(nv);}ir2(b,it.i);gr.appendChild(b);});
+      d.appendChild(gr);});
+    box.appendChild(d);});
+})();
 function fecharSum(){sum.classList.remove('aberto');}
 $$('[data-sumario]').forEach(b=>b.addEventListener('click',e=>{e.stopPropagation();abrirSum();}));
 $('.fechar',sum).addEventListener('click',e=>{e.stopPropagation();fecharSum();});
@@ -202,6 +231,8 @@ const seg=$('.s-etapas');
 if(seg)seg.addEventListener('aba',e=>{const k=$$('.segs button',seg)[e.detail].dataset.s,box=$('.col-m',seg);box.innerHTML='';SEG[k].forEach((c,i)=>{const d=document.createElement('div');d.style.animationDelay=(i*50)+'ms';if(/Conclu/.test(c[0]))d.className='fim';const h=document.createElement('h4');h.textContent=c[0];const p=document.createElement('p');p.textContent=c[1];d.append(h,p);box.appendChild(d);});});
 
 /* tarefa principal, subtarefa e checklist */
+const plan=$('.s-plan');
+if(plan)plan.addEventListener('aba',e=>{const b=$$('.pl-l',plan)[e.detail];plan.classList.add('tem-foco');$$('.mc',plan).forEach(c=>c.classList.toggle('on',c.dataset.r===String(e.detail)));$('#plN').textContent='Linha '+b.dataset.n+' da planilha';$('#plT').textContent=b.dataset.tt;$('#plP').textContent=b.dataset.dd;});
 const hier=$('.s-hier');
 if(hier)hier.addEventListener('aba',e=>{const b=$$('.niv',hier)[e.detail];hier.dataset.foco=b.dataset.n;$('#hNome').textContent=b.dataset.nome;$('#hO').textContent=b.dataset.o;$('#hOnde').textContent=b.dataset.onde;$('#hQ').textContent=b.dataset.q;});
 
@@ -294,7 +325,7 @@ if(hier)hier.addEventListener('aba',e=>{const b=$$('.niv',hier)[e.detail];hier.d
   prox.addEventListener('click',e=>{e.stopPropagation();
     if(fim){fim=false;i=0;pts=0;pinta();return;}
     if(i+1<Q.length){i++;pinta();return;}
-    fim=true;tit.textContent=pts===Q.length?'Gabaritou. O time está pronto.':'Acertou '+pts+' de '+Q.length+'. Revise os passos no sumário.';num.textContent=pts+'/'+Q.length;ops.innerHTML='';por.textContent='';prox.firstChild.textContent='Refazer o teste';});
+    fim=true;tit.textContent=pts===Q.length?'Gabaritou. O time está pronto.':'Acertou '+pts+' de '+Q.length+'. Revise os passos no índice.';num.textContent=pts+'/'+Q.length;ops.innerHTML='';por.textContent='';prox.firstChild.textContent='Refazer o teste';});
   pinta();
   if(modoPdf)ops.firstChild&&ops.children[Q[0].c].classList.add('certa');
 })();

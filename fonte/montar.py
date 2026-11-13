@@ -43,7 +43,7 @@ add(f'''<section class="tela s-capa" {attrs("", "Capa", "escuro")}>
 <div class="fx"><img src="assets/telas/quadro-1.jpg" alt=""></div>
 <div class="tx"><h1>Sua empresa rodando no <em>Ariuno</em> em uma hora.</h1>
 <p>Passo a passo para configurar a conta e colocar o time para trabalhar.</p>
-<div class="ac so-tela"><button class="botao lime" data-ir="2" data-cursor="Ir">Começar a reunião →</button><a class="botao claro" href="{PDF}" target="_blank" rel="noopener">Baixar em PDF</a></div></div>
+<div class="ac so-tela"><button class="botao lime" data-ir="2" data-cursor="Ir">Começar a reunião →</button><button class="botao claro" data-ir="3" data-cursor="Ir">Ver o índice</button><a class="botao claro" href="{PDF}" target="_blank" rel="noopener">Baixar em PDF</a></div></div>
 <div class="lab"><span>Uma apresentação</span><img src="assets/75lab-wordmark-paper.png" alt="75 LAB"></div></section>''')
 
 PAR = [(5,'Entender','Como o Ariuno se organiza'),(15,'Configurar','Sete passos do admin'),(20,'Dia a dia','A rotina de quem usa'),(6,'Áreas','Cada departamento'),(6,'Gestão','Relatórios e regras'),(5,'1ª semana','Plano e teste'),(3,'Perguntas','Com a sua realidade')]
@@ -51,6 +51,10 @@ blocos = ''.join(f'<div class="par" style="flex:{m+6} 1 0"><u>{m}<small>min</sma
 add(f'''<section class="tela" {attrs("Agenda","Agenda da reunião")}><div class="eb">A reunião</div><h2>Sete paradas, sessenta minutos. <em>O relógio está no topo.</em></h2>
 <div class="linha60">{blocos}</div>
 <div class="quem"><div><b>Quem administra</b>Fica do começo ao fim e sai com a conta configurada.</div><div><b>O time</b>Pode entrar a partir do Dia a dia, aos 20 minutos.</div><div><b>Como acompanhar</b>Cada tela mostra o passo destacado no próprio Ariuno.</div></div></section>''')
+
+# ================================================================= índice (o deck.js monta a lista a partir das telas)
+add(f'''<section class="tela s-indice" {attrs("Índice","Índice")}><div style="display:flex;justify-content:space-between;align-items:flex-end"><div><div class="eb">Índice</div><h2>Vá direto <em>ao que você precisa</em>.</h2></div>{cta("Clique para ir à tela")}</div>
+<div class="ind" id="indice"></div><p class="ind-dica">O índice também abre a qualquer momento no botão <b>Índice</b>, no topo, ou com a tecla M.</p></section>''')
 
 # ================================================================= 1 entender
 C1='1 · Entender'
@@ -174,6 +178,32 @@ add(f"""<section class="tela s-onde" {attrs(C3,"Onde isso entra?")}><div style="
 <script type="application/json" id="ondeDados">{json.dumps(ONDE,ensure_ascii=False)}</script>
 <div class="onde"><div class="caso"><small id="oN"></small><b id="oT"></b></div><div class="tres"><button data-c="0" data-cursor=""><u>1</u>Tarefa principal</button><button data-c="1" data-cursor=""><u>2</u>Subtarefa</button><button data-c="2" data-cursor=""><u>3</u>Checklist</button></div><p class="porque" id="oP"></p><div class="fila" id="oFila"></div></div>
 <div class="regra">Regra prática: <b>é o job inteiro, é tarefa principal.</b> <b>Tem dono e prazo, é subtarefa.</b> <b>É para não esquecer, é checklist.</b></div></section>""")
+# ---- cards em massa por planilha
+tour('importar',C3,'Cards em massa por planilha','<b>Atalho</b> Criar em massa','Muitos cards de uma vez: <em>suba uma planilha</em>.','dir',[
+ ('Abra a importação','No quadro, clique no ícone de planilha ao lado do nome.'),
+ ('Baixe o modelo','Vem com as etapas, pessoas, clientes e projetos deste quadro.'),
+ ('Suba a planilha','Uma linha por card, em Excel ou CSV. Nada é criado ainda.'),
+ ('Confira a prévia','Os avisos em amarelo mostram o que não bateu com o quadro.'),
+ ('Crie os cards','O botão mostra o total, e todos entram de uma vez.'),
+ ('Desfaça se precisar','Desfazer apaga só os cards desta planilha. O resto do quadro fica igual.')],extra='data-novo data-max="2.2"')
+PL_COLS=['','Título','Card principal','Etapa','Responsável','Data de entrega','Checklist']
+PL=[(2,['Campanha de Natal','','Planejamento','Camila Ferraz','28/11/2026',''],'Vira card principal','Card principal vazio: a linha é uma tarefa principal. Entra em Planejamento, com a Camila, para 28/11.'),
+    (3,['Roteiro do vídeo','Campanha de Natal','Criação','Lucas Prado','21/11/2026','Gancho; Legenda; Trilha'],'Vira subtarefa','Card principal preenchido: entra como subtarefa da Campanha de Natal. O checklist chega com três itens, separados por ponto e vírgula.'),
+    (4,['Peças para redes sociais','Campanha de Natal','Criação','Lucas Prado','24/11/2026',''],'Segunda subtarefa','A ordem das linhas é a ordem das subtarefas dentro da Campanha de Natal.'),
+    (5,['Aprovação com o cliente','Campanha de Natal','Briefng','Camila Ferraz','26/11/2026',''],'Etapa digitada errado','"Briefng" não existe no quadro. A prévia avisa e o card vai para a primeira etapa. Copie os nomes da aba Listas.'),
+    (6,['Relatório mensal','','','','30/11/2026',''],'Só o título já basta','Sem etapa, o card entra na primeira. Sem responsável, fica sem dono até alguém assumir.')]
+def cel(j,v): return f'<span class="{"v" if j==1 and v else ("x" if v=="Briefng" else "")}">{e(v)}</span>'
+pl_cab='<div class="pl-c">'+''.join(f'<span>{e(c)}</span>' for c in PL_COLS)+'</div>'
+pl_lin=''.join(f'<button class="pl-l" data-n="{n}" data-tt="{e(tt)}" data-dd="{e(dd)}" data-t="{e(dd)}" data-cursor=""><span>{n}</span>'+''.join(cel(j,v) for j,v in enumerate(cs))+'</button>' for n,cs,tt,dd in PL)
+def mc(r,tit,tag,info): return f'<div class="mc" data-r="{r}">'+(f'<em>{e(tag)}</em>' if tag else '')+f'<b>{e(tit)}</b><small>{e(info)}</small></div>'
+MQ=[('Briefing',[mc(3,'Aprovação com o cliente','↳ Campanha de Natal','Camila · 26/11'),mc(4,'Relatório mensal','','Sem responsável · 30/11')]),
+    ('Planejamento',[mc(0,'Campanha de Natal','Card principal','Camila · 28/11 · subtarefas 0 de 3')]),
+    ('Criação',[mc(1,'Roteiro do vídeo','↳ Campanha de Natal','Lucas · 21/11 · checklist 0/3'),mc(2,'Peças para redes sociais','↳ Campanha de Natal','Lucas · 24/11')])]
+mq=''.join(f'<div class="c{i+1}"><h4>{e(t)}</h4>{"".join(cs)}</div>' for i,(t,cs) in enumerate(MQ))
+add(f"""<section class="tela s-plan" data-novo data-abas=".pl-l" {attrs(C3,"Como preencher a planilha")}><div style="display:flex;justify-content:space-between;align-items:flex-end"><div><div class="eb"><b>Exemplo</b> A planilha</div><h2>Cada linha vira um card. <em>Veja onde ela entra.</em></h2></div>{cta("Clique em cada linha")}</div>
+<div class="pl">{pl_cab}{pl_lin}</div>
+<div class="baixo"><div class="mq">{mq}</div><div class="pl-ex"><small id="plN"></small><b id="plT"></b><p id="plP"></p></div></div>
+<div class="regra">Só o <b>Título</b> é obrigatório. Nomes iguais aos da <b>aba Listas</b>. Datas em <b>dd/mm/aaaa</b>. Itens de checklist separados por <b>ponto e vírgula</b>.</div></section>""")
 tour('trabalhar',C3,'Play e Concluir','<b>2</b> Dê o Play','Play quando começa. <em>Concluir quando termina.</em>','trilho',[
  ('Play','Começou a trabalhar? Clique. O tempo vai para o card.'),
  ('Concluir','Terminou? O card sai da sua pauta e entra nos relatórios.'),
@@ -270,11 +300,11 @@ if(n&&n!==v&&new URLSearchParams(location.search).get('v')!==n){{var q=new URLSe
 <div id="wrap"><div id="stage">
 {chr(10).join(telas)}
 <header id="topo"><div style="display:flex;align-items:center"><div id="marca">{LOGO}ariuno</div><span id="capTxt"></span></div>
-<div id="topoDir"><button class="chip" id="relogio" data-cursor="Pausar">00:00 de 60:00</button><button class="chip" data-sumario data-cursor="Abrir">Sumário</button><a class="chip" href="{PDF}" target="_blank" rel="noopener">PDF</a></div></header>
+<div id="topoDir"><button class="chip" id="relogio" data-cursor="Pausar">00:00 de 60:00</button><button class="chip" data-sumario data-cursor="Abrir">Índice</button><a class="chip" href="{PDF}" target="_blank" rel="noopener">PDF</a></div></header>
 <div id="pe"><span id="cont"></span><div><button id="ant" aria-label="Voltar" data-cursor="">‹</button><button id="prox" aria-label="Avançar" data-cursor="">›</button></div></div>
 <div id="prog"><i></i></div>
 <div id="wipe">{LOGO}</div>
-<nav id="sumario" aria-label="Sumário"><button class="botao claro fechar" data-cursor="">Fechar ✕</button><h2>Sumário</h2><ol id="sumLista"></ol></nav>
+<nav id="sumario" aria-label="Índice"><button class="botao claro fechar" data-cursor="">Fechar ✕</button><h2>Índice</h2><ol id="sumLista"></ol></nav>
 </div></div>
 <div id="caixa" role="dialog" aria-label="Imagem ampliada"><button class="botao claro fechar" data-cursor="">Fechar ✕</button><img id="cxImg" alt=""></div>
 <div id="cursor"></div><div id="anel"><span id="anelTxt"></span></div>
