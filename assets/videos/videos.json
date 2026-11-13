@@ -1,0 +1,279 @@
+[
+ {
+  "id": "m01-ajustes",
+  "num": "MANUAL · CONFIGURAR",
+  "titulo": "Ajustes da empresa",
+  "sub": "As regras que valem para todo mundo",
+  "fim": 30,
+  "gif": true,
+  "tela": [
+   "Ajustes da empresa",
+   "As regras da empresa",
+   "Aparência e marca"
+  ]
+ },
+ {
+  "id": "m02-convidar",
+  "num": "MANUAL · CONFIGURAR",
+  "titulo": "Como a pessoa entra no time",
+  "sub": "A 75 LAB convida. Vaga livre, o admin aprova",
+  "fim": 36,
+  "gif": true,
+  "tela": [
+   "Convidar o time",
+   "Gestão de Equipe"
+  ]
+ },
+ {
+  "id": "m03-permissoes",
+  "num": "MANUAL · USUÁRIOS",
+  "titulo": "Permissões de cada pessoa",
+  "sub": "Cada um vê só o que precisa",
+  "fim": 34,
+  "gif": true,
+  "tela": [
+   "Permissões",
+   "Simulador de permissões",
+   "Editar usuário a fundo"
+  ]
+ },
+ {
+  "id": "m04-clientes",
+  "num": "MANUAL · CONFIGURAR",
+  "titulo": "Clientes e projetos",
+  "sub": "Cliente primeiro, projeto depois",
+  "fim": 30,
+  "gif": true,
+  "tela": [
+   "Clientes e projetos",
+   "Cadastro completo do cliente",
+   "Projetos a fundo"
+  ]
+ },
+ {
+  "id": "m05-quadro",
+  "num": "MANUAL · QUADROS",
+  "titulo": "Quadro e etapas",
+  "sub": "O caminho que o trabalho percorre",
+  "fim": 30,
+  "gif": true,
+  "tela": [
+   "Quadro e etapas",
+   "Ferramentas do quadro",
+   "Opções da coluna"
+  ]
+ },
+ {
+  "id": "m06-modelos",
+  "num": "MANUAL · CONFIGURAR",
+  "titulo": "Modelos de tarefa",
+  "sub": "O que se repete vira modelo",
+  "fim": 32,
+  "gif": true,
+  "tela": [
+   "Tipos e modelos"
+  ]
+ },
+ {
+  "id": "m07-criar-card",
+  "num": "MANUAL · DIA A DIA",
+  "titulo": "Criar um card",
+  "sub": "Menos de um minuto, com modelo ou do zero",
+  "fim": 30,
+  "gif": true,
+  "tela": [
+   "Criar uma tarefa"
+  ]
+ },
+ {
+  "id": "m08-card",
+  "num": "MANUAL · DIA A DIA",
+  "titulo": "Tudo sobre o job mora no card",
+  "sub": "Briefing, checklist, subtarefas, conversa, arquivos e horas",
+  "fim": 36,
+  "gif": true,
+  "tela": [
+   "Dentro do card",
+   "Mais do card"
+  ]
+ },
+ {
+  "id": "m09-play",
+  "num": "MANUAL · DIA A DIA",
+  "titulo": "Play e Concluir",
+  "sub": "O tempo entra no card sem ninguém anotar",
+  "fim": 30,
+  "gif": true,
+  "tela": [
+   "Play e Concluir",
+   "Experimente: arraste o card"
+  ]
+ },
+ {
+  "id": "m10-planilha",
+  "num": "MANUAL · DIA A DIA",
+  "titulo": "Cards em massa por planilha",
+  "sub": "Dezenas de cards e subtarefas de uma vez",
+  "fim": 36,
+  "gif": true,
+  "tela": [
+   "Cards em massa por planilha",
+   "Como preencher a planilha"
+  ]
+ },
+ {
+  "id": "m11-visoes",
+  "num": "MANUAL · DIA A DIA",
+  "titulo": "Seis formas de ver o quadro",
+  "sub": "O mesmo trabalho, do jeito que você precisa",
+  "fim": 30,
+  "gif": true,
+  "tela": [
+   "Seis formas de ver",
+   "Filtros e busca",
+   "Lista e ações em massa"
+  ]
+ },
+ {
+  "id": "m12-horas",
+  "num": "MANUAL · DIA A DIA",
+  "titulo": "Horas e Planner",
+  "sub": "Hora que não foi registrada não existe",
+  "fim": 28,
+  "gif": true,
+  "tela": [
+   "Horas e Planner",
+   "Timesheet a fundo",
+   "Planner a fundo"
+  ]
+ },
+ {
+  "id": "m13-solicitacoes",
+  "num": "MANUAL · DIA A DIA",
+  "titulo": "Solicitações",
+  "sub": "Pediu? Virou Solicitação",
+  "fim": 32,
+  "gif": true,
+  "tela": [
+   "Solicitações",
+   "Os 15 pedidos"
+  ]
+ },
+ {
+  "id": "m14-mural",
+  "num": "MANUAL · DIA A DIA",
+  "titulo": "Mural e enquetes",
+  "sub": "O recado de todos fica no Mural",
+  "fim": 26,
+  "gif": true,
+  "tela": [
+   "Mural e enquetes"
+  ]
+ },
+ {
+  "id": "m15-gestao",
+  "num": "MANUAL · GESTÃO",
+  "titulo": "Relatórios e automações",
+  "sub": "Liderar sem precisar perguntar",
+  "fim": 32,
+  "gif": true,
+  "tela": [
+   "Relatórios e automações",
+   "Automações a fundo",
+   "Relatórios a fundo",
+   "Monte uma automação"
+  ]
+ },
+ {
+  "id": "m16-comercial",
+  "num": "MANUAL · DEPARTAMENTOS",
+  "titulo": "Comercial",
+  "sub": "Do primeiro contato à nota fiscal",
+  "fim": 38,
+  "gif": true,
+  "tela": [
+   "Comercial: o funil",
+   "Comercial: orçamento e faturamento"
+  ]
+ },
+ {
+  "id": "m17-marketing",
+  "num": "MANUAL · DEPARTAMENTOS",
+  "titulo": "Marketing",
+  "sub": "Campanhas, pedidos, verba e leads",
+  "fim": 36,
+  "gif": true,
+  "tela": [
+   "Marketing: campanhas",
+   "Marketing: pedidos, verba e leads"
+  ]
+ },
+ {
+  "id": "m18-rh",
+  "num": "MANUAL · DEPARTAMENTOS",
+  "titulo": "Pessoas e RH",
+  "sub": "Fichas, organograma, ausências, férias e clima",
+  "fim": 36,
+  "gif": true,
+  "tela": [
+   "RH: pessoas e organograma",
+   "RH: ausências, férias e clima"
+  ]
+ },
+ {
+  "id": "m19-impulsionamento",
+  "num": "MANUAL · DEPARTAMENTOS",
+  "titulo": "Impulsionamento",
+  "sub": "Anúncios e redes num painel só",
+  "fim": 30,
+  "gif": true,
+  "tela": "Impulsionamento"
+ },
+ {
+  "id": "m20-compras",
+  "num": "MANUAL · DEPARTAMENTOS",
+  "titulo": "Compras",
+  "sub": "Catálogo, fornecedores e cotações",
+  "fim": 30,
+  "gif": true,
+  "tela": "Compras"
+ },
+ {
+  "id": "m21-trafego",
+  "num": "MANUAL · DEPARTAMENTOS",
+  "titulo": "Gestão Operacional",
+  "sub": "A operação inteira em números",
+  "fim": 30,
+  "gif": true,
+  "tela": "Tráfego: gestão operacional"
+ },
+ {
+  "id": "m22-criacao",
+  "num": "MANUAL · DEPARTAMENTOS",
+  "titulo": "Criação",
+  "sub": "Entregáveis, aprovações e acervo",
+  "fim": 28,
+  "gif": true,
+  "tela": "Criação"
+ },
+ {
+  "id": "m23-social",
+  "num": "MANUAL · DEPARTAMENTOS",
+  "titulo": "Social Mídia",
+  "sub": "Do roteiro ao post publicado",
+  "fim": 30,
+  "gif": true,
+  "tela": "Social Mídia"
+ },
+ {
+  "id": "m24-estoque-rp",
+  "num": "MANUAL · DEPARTAMENTOS",
+  "titulo": "Estoque e RP",
+  "sub": "Materiais por cliente, pautas e imprensa",
+  "fim": 26,
+  "gif": false,
+  "tela": [
+   "Estoque e RP"
+  ]
+ }
+]

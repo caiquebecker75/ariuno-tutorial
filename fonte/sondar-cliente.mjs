@@ -1,0 +1,23 @@
+// Sonda o fluxo "nome do cliente > Relatório / Repositório" na demonstração.
+import { createRequire } from 'node:module';
+import http from 'node:http'; import fs from 'node:fs'; import path from 'node:path';
+const require = createRequire(process.env.HOME + '/ariuno-orcamentos/package.json');
+const { chromium } = require('playwright');
+const raiz = process.argv[2];
+const tipos = { '.js': 'text/javascript', '.css': 'text/css', '.html': 'text/html', '.json': 'application/json', '.svg': 'image/svg+xml', '.png': 'image/png' };
+const srv = http.createServer((q, r) => { const p = decodeURIComponent(q.url.split('?')[0]); let f = path.join(raiz, p); if (!fs.existsSync(f) || fs.statSync(f).isDirectory()) f = path.join(raiz, 'index.html'); r.writeHead(200, { 'content-type': tipos[path.extname(f)] || 'application/octet-stream' }); fs.createReadStream(f).pipe(r); }).listen(0);
+const b = await chromium.launch(); const c = await b.newContext({ viewport: { width: 1600, height: 1000 }, serviceWorkers: 'block', locale: 'pt-BR' });
+const p = await c.newPage(); p.on('dialog', (d) => d.accept().catch(() => {}));
+await p.goto(`http://localhost:${srv.address().port}/?demo=1`, { waitUntil: 'domcontentloaded', timeout: 90000 });
+await p.waitForFunction(() => document.body.innerText.includes('Tarefas'), null, { timeout: 90000 }); await p.waitForTimeout(1500);
+await p.addStyleTag({ content: '#task-onboarding-tour-root{display:none!important}' });
+const vis = () => p.evaluate(() => [...document.querySelectorAll('button')].filter((x) => x.offsetParent && !x.closest('aside')).map((x) => ((x.textContent || '').trim().replace(/\s+/g, ' ') || '[' + (x.title || x.getAttribute('aria-label') || '?') + ']').slice(0, 36)));
+await p.evaluate(() => [...document.querySelectorAll('aside button')].find((x) => (x.textContent || '').trim() === 'Clientes').click()); await p.waitForTimeout(1500);
+await p.locator('button[title="Abrir cliente"]').first().evaluate((n) => n.click()); await p.waitForTimeout(900);
+console.log('POPUP:', JSON.stringify((await vis()).slice(0, 40)));
+const rel = p.getByRole('button', { name: 'Relatório', exact: true });
+console.log('botões Relatório exatos:', await rel.count());
+await rel.first().evaluate((n) => n.click()); await p.waitForTimeout(2500);
+console.log('RELATÓRIO:', JSON.stringify((await vis()).slice(0, 60)));
+console.log('títulos:', JSON.stringify(await p.evaluate(() => [...document.querySelectorAll('h1,h2,h3')].filter((x) => x.offsetParent).slice(0, 8).map((x) => x.textContent.trim().slice(0, 50)))));
+await b.close(); srv.close();

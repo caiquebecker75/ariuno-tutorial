@@ -14,7 +14,17 @@ def cta(t): return f'<span class="cta so-tela">{MAO}{e(t)}</span>'
 
 telas = []
 def add(h): telas.append(h)
-def attrs(cap, tit, tema='claro'): return f'data-cap="{e(cap)}" data-titulo="{e(tit)}" data-tema="{tema}"'
+VJSON = RAIZ/'assets/videos/videos.json'
+VID = json.loads(VJSON.read_text(encoding='utf-8')) if VJSON.exists() else []
+VID = [v for v in VID if (RAIZ/'assets/videos'/(v['id']+'.mp4')).exists()]
+for v in VID: v['telas'] = v['tela'] if isinstance(v.get('tela'), list) else [v.get('tela') or '']
+def video_da_tela(tit):
+    for v in VID:
+        if any(t and (t == tit or tit.endswith(' · ' + t)) for t in v['telas']): return v['id']
+    return ''
+def attrs(cap, tit, tema='claro'):
+    v = video_da_tela(tit)
+    return f'data-cap="{e(cap)}" data-titulo="{e(tit)}" data-tema="{tema}"' + (f' data-video="{v}"' if v else '')
 def quadro(): return '<div class="quadro" data-cursor="Ampliar"><div class="vista"><img alt="Tela do Ariuno"></div><div class="luz"></div><span class="ampliar so-tela">Ampliar</span></div>'
 def cab(eb, h2, c): return f'<div class="cab"><div><div class="eb">{eb}</div><h2>{h2}</h2></div>{cta(c)}</div>'
 def lista(p): return '<ol class="passos">' + ''.join(f'<li><button class="passo" data-p data-dd="{e(d)}" data-cursor=""><i>{i+1}</i><div><b data-t>{e(t)}</b><span data-d>{e(d)}</span></div></button></li>' for i,(t,d) in enumerate(p)) + '</ol>'
@@ -54,7 +64,7 @@ add(f'''<section class="tela" {attrs("Agenda","Agenda da reunião")}><div class=
 
 # ================================================================= índice (o deck.js monta a lista a partir das telas)
 add(f'''<section class="tela s-indice" {attrs("Índice","Índice")}><div style="display:flex;justify-content:space-between;align-items:flex-end"><div><div class="eb">Índice</div><h2>Vá direto <em>ao que você precisa</em>.</h2></div>{cta("Clique para ir à tela")}</div>
-<div class="ind" id="indice"></div><p class="ind-dica">O índice também abre a qualquer momento no botão <b>Índice</b>, no topo, ou com a tecla M.</p></section>''')
+<div class="ind" id="indice" data-caps="1-6"></div><div class="ind-pe"><p class="ind-dica">O índice também abre a qualquer momento no botão <b>Índice</b>, no topo, ou com a tecla M.</p><button class="botao" data-ir-titulo="Manual avançado" data-cursor="Ir">Manual avançado, capítulos 7 a 14 →</button></div></section>''')
 
 # ================================================================= 1 entender
 C1='1 · Entender'
@@ -89,11 +99,11 @@ tour('ajustes',C2,'Passo 1 · Ajustes da empresa','<b>Passo 1</b> 2 min','Comece
  ('Coloque a sua marca','Em Aparência e Marca entram logo, cores e fontes.'),
  ('Salve','Salvar e Aplicar vale para toda a empresa.')])
 tour('time',C2,'Passo 2 · Convidar o time','<b>Passo 2</b> 3 min','Traga o time: <em>o link já entra liberado</em>.','esq',[
- ('Abra Gestão de Equipe','Também em Administração.'),
- ('Convide a pessoa','A 75 LAB abre o assento. Vaga livre, o admin preenche.'),
- ('Informe o e-mail','E-mail, nome e empresa. O link vale 14 dias.'),
- ('Copie a configuração','Escolha um colega e a pessoa já entra com as mesmas permissões.'),
- ('Pronto','Quem cria a senha pelo link entra liberado, sem esperar aprovação.')])
+ ('Abra Gestão de Equipe','Em Administração. Assentos contratados e vagas livres ficam no topo.'),
+ ('Assento novo é com a 75 LAB','Mande a lista de e-mails: a 75 LAB abre os assentos e envia os convites.'),
+ ('O convite leva e-mail e nome','O link pessoal chega por e-mail e vale 14 dias.'),
+ ('Já com a configuração certa','O convite pode copiar as permissões de um colega da mesma área.'),
+ ('A pessoa entra liberada','Quem cria a senha pelo link entra direto. Vaga livre sem convite: o admin aprova em Pendentes.')])
 tour('permissoes',C2,'Passo 3 · Permissões','<b>Passo 3</b> 3 min','Cada pessoa vê <em>só o que precisa</em>.','trilho',[
  ('Copie de um colega','Na edição do usuário, puxe a configuração de alguém da mesma empresa.'),
  ('Ajuste as chaves','Gestor, edição de custos e acesso a relatórios.'),
@@ -271,6 +281,9 @@ QUIZ=[
 add(f'''<section class="tela s-quiz" {attrs(C6,"Teste rápido")}><div style="display:flex;justify-content:space-between;align-items:flex-end"><div><div class="eb"><b>Teste rápido</b> Todo mundo responde</div><h2>Quatro perguntas para <em>fixar o essencial</em>.</h2></div>{cta("Clique na resposta")}</div>
 <script type="application/json" id="quizDados">{json.dumps(QUIZ,ensure_ascii=False)}</script>
 <div class="qz"><div class="pl"><span id="qN"></span><small>pergunta</small></div><div><h3 id="qT"></h3><div class="ops"></div><div class="porque" id="qP"></div><button class="botao prox so-tela" id="qProx" data-cursor="" style="display:none"><span>Próxima pergunta →</span></button></div></div></section>''')
+# ================================================================= manual avançado (fonte/avancado.py)
+exec((RAIZ/'fonte/avancado.py').read_text(encoding='utf-8'))
+
 add(f'''<section class="tela s-fim" {attrs("Encerramento","Próximos passos e contato","lime")}>
 <div class="e"><h2>Agora é com o seu time.</h2><p>Comece hoje pelo passo 1. Na sexta, o Ariuno já responde quem fez o quê, quando e por quanto tempo.</p>
 <div class="so-tela" style="display:flex;gap:12px"><a class="botao" href="https://wa.me/5511986765634" target="_blank" rel="noopener">Fale conosco no WhatsApp →</a><a class="botao claro" href="https://ariuno.com.br" target="_blank" rel="noopener">Abrir o Ariuno</a></div></div>
@@ -300,18 +313,21 @@ if(n&&n!==v&&new URLSearchParams(location.search).get('v')!==n){{var q=new URLSe
 <div id="wrap"><div id="stage">
 {chr(10).join(telas)}
 <header id="topo"><div style="display:flex;align-items:center"><div id="marca">{LOGO}ariuno</div><span id="capTxt"></span></div>
-<div id="topoDir"><button class="chip" id="relogio" data-cursor="Pausar">00:00 de 60:00</button><button class="chip" data-sumario data-cursor="Abrir">Índice</button><a class="chip" href="{PDF}" target="_blank" rel="noopener">PDF</a></div></header>
+<div id="topoDir"><button class="chip vid" id="btVideo" data-cursor="Assistir" hidden>▶ Vídeo desta tela</button><button class="chip" id="relogio" data-cursor="Pausar">00:00 de 60:00</button><button class="chip" data-sumario data-cursor="Abrir">Índice</button><a class="chip" href="{PDF}" target="_blank" rel="noopener">PDF</a></div></header>
 <div id="pe"><span id="cont"></span><div><button id="ant" aria-label="Voltar" data-cursor="">‹</button><button id="prox" aria-label="Avançar" data-cursor="">›</button></div></div>
 <div id="prog"><i></i></div>
 <div id="wipe">{LOGO}</div>
 <nav id="sumario" aria-label="Índice"><button class="botao claro fechar" data-cursor="">Fechar ✕</button><h2>Índice</h2><ol id="sumLista"></ol></nav>
 </div></div>
+<div id="player" role="dialog" aria-label="Vídeo"><div class="pl-box"><div class="pl-top"><b id="plTit"></b><button class="botao claro fechar" data-cursor="">Fechar ✕</button></div><video id="plVideo" controls playsinline preload="none"></video><p id="plSub"></p></div></div>
 <div id="caixa" role="dialog" aria-label="Imagem ampliada"><button class="botao claro fechar" data-cursor="">Fechar ✕</button><img id="cxImg" alt=""></div>
 <div id="cursor"></div><div id="anel"><span id="anelTxt"></span></div>
+<script>window.VIDEOS={json.dumps({v['id']: {'titulo': v['titulo'], 'sub': v['sub']} for v in VID}, ensure_ascii=False)};</script>
 <script src="assets/caixas.js?v={VER}"></script>
 <script src="assets/deck.js?v={VER}"></script>
 </body></html>
 '''
 (RAIZ/'index.html').write_text(pagina, encoding='utf-8')
 (RAIZ/'versao.txt').write_text(VER+'\n', encoding='utf-8')
-print('telas', len(telas), 'versão', VER)
+exec((RAIZ/'fonte/pagina_videos.py').read_text(encoding='utf-8'))
+print('telas', len(telas), 'versão', VER, 'vídeos', len(VID))
